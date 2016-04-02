@@ -1,5 +1,7 @@
 /** Import the Component class from the core code of angular */
 import { Component } from 'angular2/core';
+import { Hero } from './hero.ts';
+import { HeroDetailComponent } from './hero-detail.component';
 
 /** interface is a light weight class. Is used in the case
     where you need an object that doesn't do anything. */
@@ -22,16 +24,8 @@ interface Hero {
     </li>
   </ul>
 
-  <div *ngIf="selectedHero">
-    <h2>{{ selectedHero.name }} details!</h2>
-
-    <div><label>Id: </label>{{ selectedHero.id }}</div>
-    <div>
-      <label>Name: </label>
-      <input [(ngModel)]="selectedHero.name" placeholder="name">
-    </div>
-  </div>
-  `
+  <my-hero-detail [hero]="selectedHero"></my-hero-detail>
+  `,
   styles: [`
     .selected {
       background-color: #cfd8dc !important;
@@ -91,7 +85,8 @@ interface Hero {
       margin-right: 0.8em;
       border-radius: 4px 0 0 4px;
     }
-  `]
+  `],
+  directives: [HeroDetailComponent]
 })
 
 /** Send the app to the view */
