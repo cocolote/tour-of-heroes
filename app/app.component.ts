@@ -1,14 +1,8 @@
 /** Import the Component class from the core code of angular */
-import { Component } from 'angular2/core';
-import { Hero } from './hero.ts';
+import { Component, OnInit } from 'angular2/core';
+import { Hero } from './hero';
 import { HeroDetailComponent } from './hero-detail.component';
-
-/** interface is a light weight class. Is used in the case
-    where you need an object that doesn't do anything. */
-interface Hero {
-  id: number;
-  name: string;
-}
+import { HeroService } from './hero.service';
 
 @Component({
   selector: 'my-app',
@@ -86,27 +80,25 @@ interface Hero {
       border-radius: 4px 0 0 4px;
     }
   `],
-  directives: [HeroDetailComponent]
+  directives: [HeroDetailComponent],
+  providers: [HeroService]
 })
 
 /** Send the app to the view */
-export class AppComponent { 
+export class AppComponent implements OnInit { 
   title = 'Tour of Heroes';
-  public heroes = HEROES;
+  heroes: Hero[];
   selectedHero: Hero;
+
+  constructor(private _heroService: HeroService) { }
+
+  getHeroes() {
+    this._heroService.getHeroesSlowly().then(heroes => this.heroes = heroes);
+  }
+
+  ngOnInit() {
+    this.getHeroes();
+  }
 
   onSelect(hero: Hero) { this.selectedHero = hero; }
 }
-
-var HEROES: Hero[] = [
-  { "id": 11, "name": "Mr. Nice" },
-  { "id": 12, "name": "Narco" },
-  { "id": 13, "name": "Bombasto" },
-  { "id": 14, "name": "Celeritas" },
-  { "id": 15, "name": "Magneto" },
-  { "id": 16, "name": "RubberMan" },
-  { "id": 17, "name": "Dynama" },
-  { "id": 18, "name": "Dr IQ" },
-  { "id": 19, "name": "Magma" },
-  { "id": 20, "name": "Tornado" }
-];
